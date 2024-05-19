@@ -1,50 +1,50 @@
 import React from "react";
 import ReactDom from "react-dom/client";
 import "./index.css";
-// const pizzaData = [
-//   {
-//     name: "Focaccia",
-//     ingredients: "Bread with italian olive oil and rosemary",
-//     price: 6,
-//     photoName: "pizzas/focaccia.jpg",
-//     soldOut: false,
-//   },
-//   {
-//     name: "Pizza Margherita",
-//     ingredients: "Tomato and mozarella",
-//     price: 10,
-//     photoName: "pizzas/margherita.jpg",
-//     soldOut: false,
-//   },
-//   {
-//     name: "Pizza Spinaci",
-//     ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
-//     price: 12,
-//     photoName: "pizzas/spinaci.jpg",
-//     soldOut: false,
-//   },
-//   {
-//     name: "Pizza Funghi",
-//     ingredients: "Tomato, mozarella, mushrooms, and onion",
-//     price: 12,
-//     photoName: "pizzas/funghi.jpg",
-//     soldOut: false,
-//   },
-//   {
-//     name: "Pizza Salamino",
-//     ingredients: "Tomato, mozarella, and pepperoni",
-//     price: 15,
-//     photoName: "pizzas/salamino.jpg",
-//     soldOut: true,
-//   },
-//   {
-//     name: "Pizza Prosciutto",
-//     ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
-//     price: 18,
-//     photoName: "pizzas/prosciutto.jpg",
-//     soldOut: false,
-//   },
-// ];
+const pizzaData = [
+  {
+    name: "Focaccia",
+    ingredients: "Bread with italian olive oil and rosemary",
+    price: 6,
+    photoName: "pizzas/focaccia.jpg",
+    soldOut: false,
+  },
+  {
+    name: "Pizza Margherita",
+    ingredients: "Tomato and mozarella",
+    price: 10,
+    photoName: "pizzas/margherita.jpg",
+    soldOut: false,
+  },
+  {
+    name: "Pizza Spinaci",
+    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
+    price: 12,
+    photoName: "pizzas/spinaci.jpg",
+    soldOut: false,
+  },
+  {
+    name: "Pizza Funghi",
+    ingredients: "Tomato, mozarella, mushrooms, and onion",
+    price: 12,
+    photoName: "pizzas/funghi.jpg",
+    soldOut: false,
+  },
+  {
+    name: "Pizza Salamino",
+    ingredients: "Tomato, mozarella, and pepperoni",
+    price: 15,
+    photoName: "pizzas/salamino.jpg",
+    soldOut: true,
+  },
+  {
+    name: "Pizza Prosciutto",
+    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
+    price: 18,
+    photoName: "pizzas/prosciutto.jpg",
+    soldOut: false,
+  },
+];
 
 function App() {
   return (
@@ -57,40 +57,32 @@ function App() {
 }
 function Menu() {
   return (
-    <div>
-      <Pizza
-        name="Pizza Margherita"
-        photoName="pizzas/margherita.jpg"
-        ingrediants="Cheese, Butter, and pepperoni"
-        price={113}
-      />
-      <Pizza
-        name="Pizza Funghi"
-        photoName="pizzas/funghi.jpg"
-        ingrediants="Tomato, mozarella, and pepperoni"
-        price={11}
-      />
-      <Pizza
-        name="Pizza Salamino"
-        photoName="pizzas/salamino.jpg"
-        ingrediants="Tomato, mozarella, and pepperoni"
-        price={15}
-      />
-    </div>
+    <main className="menu">
+      <h2>Our Menu</h2>
+      {pizzaData.length > 0 ? (
+        <ul className="pizzas">
+          {pizzaData.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We are Working on our Menu</p>
+      )}
+    </main>
   );
 }
 
 function Pizza(props) {
   console.log("Props", props);
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <ul className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
-        <h1>{props.name}</h1>
-        <p>{props.ingrediants}</p>
-        <span>{props.price}</span>
+        <h1>{props.pizzaObj.name}</h1>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
       </div>
-    </div>
+    </ul>
   );
 }
 function Header() {
@@ -109,7 +101,14 @@ function Footer() {
   console.log("isOpen", isOpen);
   return (
     <footer className="footer">
-      {new Date().toLocaleDateString()}We are Open Now
+      {isOpen && (
+        <div className="order">
+          <p>
+            We are open untill {closeHour}:00 Come Visit Us or Order Online{" "}
+          </p>
+          <button className="btn">Order Now</button>
+        </div>
+      )}
     </footer>
   );
 }

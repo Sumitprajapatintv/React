@@ -60,7 +60,7 @@ body {
   width: 12rem;
   background-color: #edc84b;
   position: absolute;
-  top: calc(50% - 1px);
+  top: calc(100% - 0px);
 }
 
 .header h1::before {
