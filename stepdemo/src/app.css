@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+.container {
+  width: 600px;
+  background-color: #f1f3f5;
+  margin: 100px auto;
+  padding: 25px 100px;
+  border-radius: 10px;
+}
+.numbers {
+  display: flex;
+  justify-content: space-between;
+}
+.numbers > div {
+  padding: 10px 15px;
+  background-color: #ced4da;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.numbers .active {
+  background-color: #cc5de8;
+  color: #fff;
+}
+
+.message {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 40px 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #cc5de8;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 100px;
+  cursor: pointer;
+}
