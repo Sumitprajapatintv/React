@@ -1,11 +1,22 @@
 import "./app.css";
+import { useState } from "react";
 const messages = [
   "Learn React ⚛️",
   "Apply for jobs 💼",
   "Invest your new income 🤑",
 ];
 function App() {
-  const step = 1;
+  const [step, setStep] = useState(1);
+  function handlePrevious() {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  }
+  function handleNext() {
+    if (step < 3) {
+      setStep(step + 1);
+    }
+  }
   return (
     <div className="container">
       <div className="numbers">
@@ -19,8 +30,12 @@ function App() {
       </p>
 
       <div className="buttons">
-        <button className="btn">Previous</button>
-        <button className="btn">Next</button>
+        <button className="btn" onClick={handlePrevious}>
+          Previous
+        </button>
+        <button className="btn" onClick={handleNext}>
+          Next
+        </button>
       </div>
     </div>
   );
