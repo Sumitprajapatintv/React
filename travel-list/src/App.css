@@ -38,12 +38,16 @@ h1 {
   background-color: #5a3e2b;
   color: #ffebb3;
   padding: 4rem 0;
-
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   gap: 3.2rem;
   align-items: center;
+}
+.list li {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
 }
 .footer {
   background-color: #76c7ad;
