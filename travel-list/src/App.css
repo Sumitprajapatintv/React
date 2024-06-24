@@ -34,6 +34,20 @@ h1 {
   justify-content: center;
   gap: 0.8rem;
 }
+button,
+select,
+input {
+  background-color: #ffebb3;
+  color: #5a3e2b;
+  font-family: inherit;
+  border: none;
+  border-radius: 10rem;
+  padding: 0.4rem 1.2rem;
+  font-weight: 300;
+  font-size: rem;
+  cursor: pointer;
+}
+
 .list {
   background-color: #5a3e2b;
   color: #ffebb3;
