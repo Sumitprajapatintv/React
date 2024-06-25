@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: sans-serif;
+  font-weight: 200;
+}
+.App {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+  gap: 2rem;
+}
+.flascard {
+  margin: 10px;
+  width: 100%;
+  padding: 6rem 4rem;
+  background-color: thistle;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* .flascard:hover {
+  background-color: brown;
+} */
