@@ -7,20 +7,32 @@ body {
   font-family: sans-serif;
   font-weight: 200;
 }
-.App {
+/* .App {
   display: grid;
-  grid-template-columns: auto auto auto;
-  padding: 10px;
-  gap: 2rem;
-}
-.flascard {
-  margin: 10px;
-  width: 100%;
-  padding: 6rem 4rem;
-  background-color: thistle;
-  border-radius: 10px;
-  cursor: pointer;
-}
-/* .flascard:hover {
-  background-color: brown;
+  grid-template-columns.flashcards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }:
 } */
+.flascard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+.flascard div {
+  border: 1px solid #e7e7e7;
+  background-color: #f7f7f7;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 50px;
+}
+div.selected {
+  border: 1px solid #e03131;
+  background-color: #e03131;
+  color: #fff;
+  font-weight: bold;
+}

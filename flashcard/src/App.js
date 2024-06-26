@@ -3,9 +3,7 @@ import { useState } from "react";
 export default function App() {
   return (
     <div className="App">
-      {questions.map((el) => (
-        <FlashCards item={el} />
-      ))}
+      <FlashCards />
     </div>
   );
 }
@@ -44,13 +42,23 @@ const questions = [
   },
 ];
 
-function FlashCards({ item }) {
-  const [ans, setAnswer] = useState("");
-  function handleEvent(e) {}
+function FlashCards() {
+  const [selectedId, setSelectedId] = useState(null);
+  function handleEvent(id) {
+    setSelectedId(id);
+  }
 
   return (
-    <div className="flascard" onClick={handleEvent}>
-      <p>{item.question}</p>
+    <div className="flascard">
+      {questions.map((el) => (
+        <div
+          key={el.id}
+          onClick={() => handleEvent(el.id)}
+          className={el.id === selectedId ? "selected" : ""}
+        >
+          <p>{el.id === selectedId ? el.answer : el.question}</p>
+        </div>
+      ))}
     </div>
   );
 }
