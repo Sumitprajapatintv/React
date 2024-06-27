@@ -9,6 +9,12 @@
   padding: 25px 100px;
   border-radius: 10px;
 }
+.input-section {
+  /* margin: 0 2rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .step-section {
   display: flex;
   align-items: center;
