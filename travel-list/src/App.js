@@ -7,11 +7,15 @@ const initialItems = [
   { id: 5, description: "Socks", quantity: 12, packed: false },
 ];
 export default function App() {
+  const [items, setItems] = useState([]);
+  function handleAddItem(item) {
+    setItems((items) => [...items, item]);
+  }
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItem={handleAddItem} />
+      <PackingList items={items} />
       <Stats />
     </div>
   );
@@ -20,14 +24,16 @@ export default function App() {
 function Logo() {
   return <h1>🌲Far Away 💼</h1>;
 }
-function Form() {
+function Form({ onAddItem }) {
   const [description, setDescription] = useState("");
-  const [count, setCount] = useState("");
+  const [count, setCount] = useState(1);
+
   function handleSubmit(e) {
     e.preventDefault();
     const item = { description, count, paked: false, id: Date.now() };
+    onAddItem(item);
     setDescription("");
-    setCount("");
+    setCount(1);
   }
   return (
     <form className="add-from" onSubmit={handleSubmit}>
@@ -51,11 +57,11 @@ function Form() {
     </form>
   );
 }
-function PackingList() {
+function PackingList({ items }) {
   return (
     <div className="list">
       <li>
-        {initialItems.map((item) => {
+        {items.map((item) => {
           return <Item item={item} key={item} />;
         })}
       </li>
@@ -63,12 +69,10 @@ function PackingList() {
   );
 }
 function Item({ item }) {
-  // console.log("item", item);
   return (
     <li>
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-        {item.quantity}
-        {item.description}
+        {item.count} {item.description}
       </span>
       <button>❌</button>
     </li>
