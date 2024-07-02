@@ -25,7 +25,7 @@ export default function App() {
         onDelteItem={handleDeleteItem}
         onToggleItem={handleToggleItem}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -99,10 +99,26 @@ function Item({ item, onDelteItem, onToggleItem }) {
     </li>
   );
 }
-function Stats() {
+function Stats({ items }) {
+  if (!items.length) {
+    return (
+      <footer className="footer">
+        <em>Please Add Item</em>
+      </footer>
+    );
+  }
+  const numLength = items.length;
+  const pakedItem = items.filter((el) => el.packed).length;
+  const persentage = Math.round((pakedItem / numLength) * 100);
   return (
     <footer className="footer">
-      <em>You hava X item in your list You have already packed X(X%)</em>
+      <em>
+        {persentage !== 100
+          ? `You hava ${numLength} item in your list You have already packed
+        ${pakedItem}
+        ${persentage} %`
+          : `All Ready Just Go Now ✈️`}
+      </em>
     </footer>
   );
 }
