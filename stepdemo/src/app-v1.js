@@ -5,7 +5,7 @@ const messages = [
   "Apply for jobs 💼",
   "Invest your new income 🤑",
 ];
-export default function App() {
+function App() {
   const [step, setStep] = useState(1);
   const [isOpen, setisOpen] = useState(true);
   // const [test, setTest] = useState({ name: "Jonas" });
@@ -39,18 +39,17 @@ export default function App() {
           </p>
 
           <div className="buttons">
-            <Button textColor="#f8f9fa" backgroudColor="#da77f2" handlefunction={handlePrevious} >Previous</Button >
-            <Button textColor="#f8f9fa" backgroudColor="#da77f2" handlefunction={handleNext} >Next</Button >
+            <button className="btn" onClick={handlePrevious}>
+              Previous
+            </button>
+            <button className="btn" onClick={handleNext}>
+              Next
+            </button>
           </div>
-
-        </div >
-      )
-      }
+        </div>
+      )}
     </>
   );
 }
 
-function Button({ btn, handlefunction, textColor, backgroudColor, children }) {
-  return <button style={{ color: textColor, backgroundColor: backgroudColor }} onClick={handlefunction} > {children}</button >
-}
-
+export default App;

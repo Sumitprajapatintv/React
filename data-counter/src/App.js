@@ -56,8 +56,8 @@ function App() {
           {count === 0
             ? `today is ${date.toDateString()}`
             : count > 0
-            ? `${count} days from today is ${date.toDateString()}`
-            : `${count} days ago from today is ${date.toDateString()}`}
+              ? `${count} days from today is ${date.toDateString()}`
+              : `${count} days ago from today is ${date.toDateString()}`}
         </span>
       </p>
       <div>

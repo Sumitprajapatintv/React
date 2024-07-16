@@ -36,6 +36,18 @@
   display: flex;
   justify-content: space-between;
 }
+.buttons button {
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 .btn {
   background-color: #cc5de8;
