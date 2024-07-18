@@ -1,0 +1,9 @@
+body{
+  font-size: 24px;
+  font-family: sans-serif;
+}
+.billSeaction{
+  display: flex;
+  align-items: center;
+  gap:8px
+}
