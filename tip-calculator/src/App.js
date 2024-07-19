@@ -60,7 +60,7 @@ function OutPutSection({ billValue, serviceValue, friendServiceValue }) {
   const totalServie = ((Number(billValue)) * (((Number(serviceValue) + Number(friendServiceValue)) / 2))) / 100;
   const total = Number(billValue) + Number(totalServie);
 
-  return <div>
+  return billValue > 0 && <div>
     <p>You Pay ${total} (${Number(billValue)} + ${totalServie})</p>
   </div>
 
