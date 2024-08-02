@@ -7,7 +7,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
-    <StartComponenet maxRating={10} />
+    <StartComponenet length={10} />
+    <StartComponenet length={5} color='#fa5252' size='12px' />
   </React.StrictMode>
 );
 
