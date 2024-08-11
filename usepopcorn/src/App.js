@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const tempMovieData = [
@@ -48,9 +48,39 @@ const tempWatchedData = [
   },
 ];
 
+const key = "8755c3e1";
+
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
+  const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
+  const [isLoading, setisLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setisLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?i=tt3896198&apikey=8755c3e1&s=Inception`
+        );
+        if (!res.ok) {
+          throw new Error("Something went wrong");
+        }
+        const data = await res.json();
+        if (data.Response == "False") {
+          throw new Error("Movies not Found");
+        }
+        setMovies(data.Search);
+      } catch (error) {
+        console.error("error.message", error.message);
+        setError(error.message);
+      } finally {
+        setisLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -63,9 +93,12 @@ export default function App() {
         <SearchBar />
         <NumResult movies={movies} />
       </Navbar>
+
       <Main>
         <Box>
-          <MoviesList movies={movies} />
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MoviesList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
           <Summmary
@@ -77,6 +110,20 @@ export default function App() {
         </Box>
       </Main>
     </>
+  );
+}
+
+function Loader() {
+  return <p className="loader">Loading..</p>;
+}
+
+function ErrorMessage({ message }) {
+  console.log("me", message);
+  return (
+    <p className="error">
+      <span>❌</span>
+      {message}
+    </p>
   );
 }
 
@@ -124,7 +171,7 @@ function Main({ movies, children }) {
 }
 
 function Box({ children }) {
-  console.log("Simor");
+  // console.log("Simor");
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
@@ -137,7 +184,7 @@ function Box({ children }) {
 }
 
 function MoviesList({ movies }) {
-  console.log("Movies", movies);
+  // console.log("Movies", movies);
   return (
     <ul className="list">
       {movies?.map((movie) => (
