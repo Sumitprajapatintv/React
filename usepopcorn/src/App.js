@@ -51,6 +51,7 @@ const tempWatchedData = [
 const key = "8755c3e1";
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setisLoading] = useState(false);
@@ -59,10 +60,13 @@ export default function App() {
   useEffect(() => {
     async function fetchData() {
       try {
+        console.log(query, "ad");
         setisLoading(true);
+        setError("");
         const res = await fetch(
-          `http://www.omdbapi.com/?i=tt3896198&apikey=8755c3e1&s=Inception`
+          `http://www.omdbapi.com/?i=tt3896198&apikey=8755c3e1&s=${query}`
         );
+        console.log("res", res);
         if (!res.ok) {
           throw new Error("Something went wrong");
         }
@@ -78,8 +82,13 @@ export default function App() {
         setisLoading(false);
       }
     }
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
     fetchData();
-  }, []);
+  }, [query]);
 
   const average = (arr) =>
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -90,7 +99,7 @@ export default function App() {
   return (
     <>
       <Navbar>
-        <SearchBar />
+        <SearchBar query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
       </Navbar>
 
@@ -145,8 +154,7 @@ function Logo() {
   );
 }
 
-function SearchBar() {
-  const [query, setQuery] = useState("");
+function SearchBar({ query, setQuery }) {
   return (
     <input
       className="search"
