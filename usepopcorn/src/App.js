@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import StartComponenet from './startComponent'
 
 const tempMovieData = [
   {
@@ -48,7 +49,7 @@ const tempWatchedData = [
   },
 ];
 
-const key = "8755c3e1";
+let KEY = "8755c3e1";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -120,12 +121,12 @@ export default function App() {
         </Box>
         <Box>
           {selectedId && <MoviDetails selectedId={selectedId} onCloseMovi={onCloseMovi} />}
-          <Summmary
+          {/* <Summmary
             watched={watched}
             avgImdbRating={avgImdbRating}
             avgUserRating={avgUserRating}
             avgRuntime={avgRuntime}
-          />
+          /> */}
         </Box>
       </Main>
     </>
@@ -295,8 +296,89 @@ function WatchedMoviHeader({
 }
 
 function MoviDetails({ selectedId, onCloseMovi }) {
-  return <div>
-    <button className="btn-back" onClick={onCloseMovi}>&larr;</button>
-    <p>{selectedId}</p>
-  </div>
+  const [isLoading, setisLoading] = useState(false);
+  const [movie, setMovi] = useState({});
+  const [error, setError] = useState("");
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: genre,
+  } = movie;
+  useEffect(
+    function () {
+      async function getMovieDetails() {
+        setisLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`
+        );
+        const data = await res.json();
+        setMovi(data);
+        setisLoading(false);
+      }
+      getMovieDetails();
+    },
+    [selectedId]
+  );
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back">
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${movie} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            {/* <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StartComponenet
+                    maxRating={10}
+                    size={24}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add">
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated with movie {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div> */}
+            <p>
+              <em>{plot}</em>
+            </p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
 }
