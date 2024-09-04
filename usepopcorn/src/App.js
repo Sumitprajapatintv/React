@@ -57,7 +57,7 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedId, setSelectedId] = useState("tt6393306");
+  const [selectedId, setSelectedId] = useState("");
 
   function handleSelectedId(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id))
@@ -65,6 +65,9 @@ export default function App() {
 
   function onCloseMovi() {
     setSelectedId(null);
+  }
+  function handleSetWatched(newWatchedMovi) {
+    setWatched((watched) => [newWatchedMovi, ...watched]);
   }
 
   useEffect(() => {
@@ -120,13 +123,13 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          {selectedId && <MoviDetails selectedId={selectedId} onCloseMovi={onCloseMovi} />}
-          {/* <Summmary
+          {selectedId ? <MoviDetails selectedId={selectedId} onCloseMovi={onCloseMovi} onWatched={handleSetWatched} /> : <Summmary
             watched={watched}
             avgImdbRating={avgImdbRating}
             avgUserRating={avgUserRating}
             avgRuntime={avgRuntime}
-          /> */}
+          />}
+
         </Box>
       </Main>
     </>
@@ -229,6 +232,7 @@ function Movi({ movie, onHandleMovi }) {
 }
 
 function Summmary({ watched, avgImdbRating, avgUserRating, avgRuntime }) {
+  console.log("watched", watched);
   return (
     <>
       <div className="summary">
@@ -295,10 +299,11 @@ function WatchedMoviHeader({
   );
 }
 
-function MoviDetails({ selectedId, onCloseMovi }) {
+function MoviDetails({ selectedId, onCloseMovi, onWatched }) {
   const [isLoading, setisLoading] = useState(false);
   const [movie, setMovi] = useState({});
   const [error, setError] = useState("");
+  const [userRating, setUserRating] = ("");
   const {
     Title: title,
     Year: year,
@@ -311,6 +316,20 @@ function MoviDetails({ selectedId, onCloseMovi }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+  function onHandleAdd() {
+    const newWachedMovi = {
+      imdbID: selectedId,
+      Title: title,
+      Year: year,
+      Poster: poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating,
+    }
+    onWatched(newWachedMovi);
+  }
+
   useEffect(
     function () {
       async function getMovieDetails() {
@@ -351,26 +370,10 @@ function MoviDetails({ selectedId, onCloseMovi }) {
             </div>
           </header>
           <section>
-            {/* <div className="rating">
-              {!isWatched ? (
-                <>
-                  <StartComponenet
-                    maxRating={10}
-                    size={24}
-                    onSetRating={setUserRating}
-                  />
-                  {userRating > 0 && (
-                    <button className="btn-add">
-                      + Add to list
-                    </button>
-                  )}
-                </>
-              ) : (
-                <p>
-                  You rated with movie {watchedUserRating} <span>⭐️</span>
-                </p>
-              )}
-            </div> */}
+            <div className="rating">
+              <StartComponenet length={10} size="24px" onSetRating={setUserRating} />
+              <button className="btn-add" onClick={onHandleAdd}>+ Add to list</button>
+            </div>
             <p>
               <em>{plot}</em>
             </p>
