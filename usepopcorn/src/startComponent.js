@@ -17,18 +17,19 @@ const textStyle = {
 }
 
 const starStyle = {
-  width: "48px",
+  width: "22px",
   height: "48px",
   display: "block",
-  cursor: "pointer"
+  cursor: "pointer",
 }
 
-export default function StartComponenet({ length = 5, color = "#ffe066", size = "48px" }) {
+export default function StartComponenet({ length = 5, color = "#ffe066", size = "36px", onSetRating }) {
   const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating() {
-    setRating(rating);
+    setRating(tempRating);
+    onSetRating(tempRating);
   }
 
   return <div style={mainComponent}>
