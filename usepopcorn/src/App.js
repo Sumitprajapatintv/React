@@ -297,6 +297,13 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
     onWatched(newWachedMovi);
     onCloseMovi();
   }
+  console.log("Movi", movie.Title)
+  useEffect(
+    function () {
+      if (!movie.Title) return;
+      document.title = `Movi | ${movie.Title}`
+    }, [movie.Title]
+  )
 
   useEffect(
     function () {
