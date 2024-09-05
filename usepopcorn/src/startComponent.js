@@ -28,8 +28,8 @@ export default function StartComponenet({ length = 5, color = "#ffe066", size = 
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating() {
-    setRating(rating);
-    onSetRating(rating);
+    setRating(tempRating);
+    onSetRating(tempRating);
   }
 
   return <div style={mainComponent}>
