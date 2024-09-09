@@ -28,6 +28,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchData() {
       try {
         setisLoading(true);
@@ -44,9 +45,12 @@ export default function App() {
           throw new Error("Movies not Found");
         }
         setMovies(data.Search);
+        setError("");
       } catch (error) {
         console.error("error.message", error.message);
-        setError(error.message);
+        if (error.name !== 'AbortError') {
+          setError(error.message);
+        }
       } finally {
         setisLoading(false);
       }
@@ -57,6 +61,10 @@ export default function App() {
       return;
     }
     fetchData();
+
+    return function () {
+      controller.abort();
+    }
   }, [query]);
 
   const average = (arr) =>
@@ -298,10 +306,31 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
     onCloseMovi();
   }
   console.log("Movi", movie.Title)
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code == "Escape") {
+          onCloseMovi();
+          console.log("Close")
+        }
+
+      }
+      document.addEventListener('keydown', callback);
+      return function () {
+        document.removeEventListener("keydown", callback);
+      }
+    }, [onCloseMovi]
+  )
+
   useEffect(
     function () {
       if (!movie.Title) return;
       document.title = `Movi | ${movie.Title}`
+
+      return function () {
+        document.title = "usePopcorn";
+      }
     }, [movie.Title]
   )
 
