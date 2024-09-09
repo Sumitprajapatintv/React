@@ -310,18 +310,19 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
   useEffect(
     function () {
       function callback(e) {
-        if (e.code == "Escape") {
+        if (e.code === "Escape") {
           onCloseMovi();
-          console.log("Close")
         }
-
       }
-      document.addEventListener('keydown', callback);
+
+      document.addEventListener("keydown", callback);
+
       return function () {
         document.removeEventListener("keydown", callback);
-      }
-    }, [onCloseMovi]
-  )
+      };
+    },
+    [onCloseMovi]
+  );
 
   useEffect(
     function () {
@@ -357,7 +358,7 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
       ) : (
         <>
           <header>
-            <button className="btn-back">
+            <button className="btn-back" onClick={onCloseMovi}>
               &larr;
             </button>
             <img src={poster} alt={`Poster of ${movie} movie`} />
