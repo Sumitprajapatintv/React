@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import StartComponenet from './startComponent'
 
@@ -13,6 +13,8 @@ export default function App() {
       return JSON.parse(storedValue);
     }
   );
+
+
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState("");
@@ -47,7 +49,7 @@ export default function App() {
         const res = await fetch(
           `http://www.omdbapi.com/?i=tt3896198&apikey=8755c3e1&s=${query}`
         );
-        console.log("res", res);
+        // console.log("res", res);
         if (!res.ok) {
           throw new Error("Something went wrong");
         }
@@ -116,7 +118,7 @@ function Loader() {
 }
 
 function ErrorMessage({ message }) {
-  console.log("me", message);
+  // console.log("me", message);
   return (
     <p className="error">
       <span>❌</span>
@@ -144,6 +146,26 @@ function Logo() {
 }
 
 function SearchBar({ query, setQuery }) {
+  const inpEl = useRef(null);
+
+  useEffect(function () {
+
+    function callback(e) {
+      if (document.activeElement === inpEl.current)
+        return true;
+      console.log(e);
+      if (e.code === "Enter") {
+        inpEl.current.focus();
+        setQuery("");
+      }
+    }
+    document.addEventListener("keydown", callback)
+
+    return () => document.addEventListener("keydown", callback)
+    // console.log(inpEl.current);
+    // inpEl.current.focus();
+  }, [setQuery]);
+
   return (
     <input
       className="search"
@@ -151,6 +173,7 @@ function SearchBar({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inpEl}
     />
   );
 }
@@ -207,7 +230,7 @@ function Movi({ movie, onHandleMovi }) {
 }
 
 function Summmary({ watched, avgImdbRating, avgUserRating, avgRuntime, onDeleteWatched }) {
-  console.log("watched", watched);
+  // console.log("watched", watched);
   return (
     <>
       <div className="summary">
@@ -303,6 +326,17 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
   )?.userRating;
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
 
+  let countRef = useRef(0);
+  useEffect(
+    function () {
+      if (userRating) {
+        console.log(countRef.current)
+        countRef.current++;
+      }
+    },
+    [userRating]
+  )
+
   function onHandleAdd() {
     const newWachedMovi = {
       imdbID: selectedId,
@@ -312,11 +346,14 @@ function MoviDetails({ selectedId, onCloseMovi, onWatched, watched }) {
       imdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      userDesionRating: countRef.current
     }
+    console.log(newWachedMovi)
     onWatched(newWachedMovi);
     onCloseMovi();
   }
-  console.log("Movi", movie.Title)
+  console.log(movie)
+  // console.log("Movi", movie.Title)
 
   useEffect(
     function () {
