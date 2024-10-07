@@ -1,9 +1,14 @@
 import './index.css'
-import DateCounter from "./DateCounter";
+import Main from './Main';
+import Header from './Header'
 function App() {
   return (
-    <div className="App">
-      <DateCounter />
+    <div className="app">
+      <Header />
+      <Main>
+        <p>1/10</p>
+        <p>Question...</p>
+      </Main>
     </div>
   );
 }
