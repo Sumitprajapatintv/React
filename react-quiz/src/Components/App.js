@@ -9,13 +9,16 @@ import Question from './Question';
 import NextQuestion from './NextQuestion';
 import Progress from './Progress';
 import FinishScreen from './FinishScreen';
+import Footer from './Footer';
+import Timer from './Timer';
 const intialState = {
   questions: [],
   status: "Loding",
   index: 0,
   answer: null,
   points: 0,
-  highScore: 0
+  highScore: 0,
+  secoundRemaing: null
 }
 function reducer(state, action) {
   switch (action.type) {
@@ -24,7 +27,7 @@ function reducer(state, action) {
     case "dataFailed":
       return { ...state, status: "Error" }
     case "start":
-      return { ...state, status: "active" }
+      return { ...state, status: "active", secoundRemaing: state.questions.length }
     case "newAnswer":
       const question = state.questions.at(state.index);
       return {
@@ -46,12 +49,19 @@ function reducer(state, action) {
       return {
         ...intialState, questions: state.questions, status: "ready"
       }
+    case "tick":
+      return {
+        ...state,
+        secoundRemaing: state.secoundRemaing - 1,
+        status: state.secoundRemaing === 0 ? "finished" : state.status,
+      };
+
     default:
       throw new Error("Action Unknown")
   }
 }
 function App() {
-  const [{ questions, status, index, answer, points, highScore }, dispatch] = useReducer(reducer, intialState);
+  const [{ questions, status, index, answer, points, highScore, secoundRemaing }, dispatch] = useReducer(reducer, intialState);
 
   console.log("points", points);
 
@@ -78,7 +88,10 @@ function App() {
           <>
             <Progress index={index} noOfQuestion={noOfQuestion} points={points} totalPoitns={totalPoitns} answer={answer} />
             <Question question={questions[index]} dispatch={dispatch} answer={answer} />
-            <NextQuestion index={index} noOfQuestion={noOfQuestion} dispatch={dispatch} answer={answer} />
+            <Footer>
+              <Timer dispatch={dispatch} secoundRemaing={secoundRemaing} />
+              <NextQuestion index={index} noOfQuestion={noOfQuestion} dispatch={dispatch} answer={answer} />
+            </Footer>
           </>
         }
         {status === "finished" && <FinishScreen dispatch={dispatch} points={points} maxPoints={totalPoitns} highScore={highScore} />}
