@@ -8,8 +8,8 @@ export function PackingList({ items, onDelteItem, onToggleItem, onClearList }) {
     sortedItems.sort((a, b) => a.description.localeCompare(b.description));
   }
   if (sortBy === "packed") {
-    console.log("paked");
-    sortedItems.sort((a, b) => Number(a.packed) - Number(b.packed));
+    console.log("sortedItems", sortedItems);
+    sortedItems.sort((b,a) => Number(a.packed) - Number(b.packed));
   }
   return (
     <div className="list">

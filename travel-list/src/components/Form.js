@@ -6,7 +6,7 @@ export function Form({ onAddItem }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const item = { description, count, paked: false, id: Date.now() };
+    const item = { description, count, packed: false, id: Date.now() };
     onAddItem(item);
     setDescription("");
     setCount(1);
