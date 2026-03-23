@@ -130,14 +130,14 @@ function SplitForm({ selectedFriend, onSplitBill }) {
     <h2>Split a Bill with {selectedFriend.name}</h2>
 
     <label className='label'>💰 Bill values</label>
-    <input type="text" value={billValue} onChange={(e) => setBillValue(e.target.value)} />
+    <input type="number" value={billValue} onChange={(e) => setBillValue(e.target.value)} />
 
     <label className='label'>🤓Your expense</label>
-    <input type="text" value={expense} onChange={(e) => setExpense(e.target.value)} />
+    <input type="number" value={expense} onChange={(e) => setExpense(e.target.value)} />
 
 
     <label className='label'>👫Clark Expense</label>
-    <input type="text" disabled value={expense ? billValue - expense : billValue} />
+    <input type="number" disabled value={expense ? billValue - expense : billValue} />
 
     <label className='label'>🤑Who is paying the bill</label>
     <select value={whoIsPaying} onChange={(e) => setWhoisPaying(e.target.value)}>
