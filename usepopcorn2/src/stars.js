@@ -9,14 +9,14 @@ const containerStyle = {
 const starContainerStyle = {
   display: "flex",
 };
-export default function Stars({ maxLength = 10, color = "red", size = 20 }) {
+export default function Stars({onSetRating, maxLength = 10, color = "yellow", size = 20 }) {
   const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
-  console.log("TempRating", tempRating);
-  console.log("rating", rating);
+
 
   function handleRating(r) {
     setRating(r);
+    onSetRating(r)
   }
   const textStyle = {
     lineHeight: "1",
