@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';   
-import App from './App';
+import App from './app-v2';
 // import Stars from './stars'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
