@@ -9,6 +9,8 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Timer from "./Timer";
+import Footer from "./Footer";
 function reducer(state, action) {
   switch (action.type) {
     case "dataRecieved": {
@@ -18,7 +20,7 @@ function reducer(state, action) {
       return { ...state, status: "error" };
     }
     case "start": {
-      return { ...state, status: "start" };
+      return { ...state, status: "start", secondRemaining: state.questions.length * 30  };
     }
     case "newAnswer": {
       return { ...state, answer: action.payload };
@@ -42,13 +44,21 @@ function reducer(state, action) {
         answer: null,
       };
     }
-       case "restart": {
+    case "tick": {
+      return {
+        ...state,
+        secondRemaining: state.secondRemaining - 1,
+        status: state.secondRemaining === 0 ? "finished" : state.status,
+      };
+    }
+    case "restart": {
       return {
         ...state,
         status: "start",
         index: 0,
         points: 0,
         answer: null,
+        secondRemaining: 10,
       };
     }
   }
@@ -62,13 +72,17 @@ function App() {
     answer: null,
     points: 0,
     highscore: 0,
+    secondRemaining: 10,
   };
-  const [{ questions, status, index, answer, points,highscore }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [
+    { questions, status, index, answer, points, highscore, secondRemaining },
+    dispatch,
+  ] = useReducer(reducer, initialState);
   const numQuestion = questions.length;
   const totalPoints = questions.reduce((prev, cur) => prev + cur.points, 0);
+  
+  // dispatch()
+
   console.log("answer", answer);
   useEffect(function () {
     async function fetchData(params) {
@@ -114,6 +128,9 @@ function App() {
           numQuestion={numQuestion}
           index={index}
         />
+      </Main>
+      <Footer>
+        {status == "start" && <Timer secondRemaining={secondRemaining} dispatch={dispatch} />}
         {status == "finished" && (
           <FinishScreen
             points={points}
@@ -122,7 +139,7 @@ function App() {
             dispatch={dispatch}
           />
         )}
-      </Main>
+      </Footer>
     </div>
   );
 }
