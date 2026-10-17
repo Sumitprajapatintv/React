@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import Pricing from "./pages/Pricing";
 import Product from "./pages/Product";
 import Home from "./pages/Homepage";
@@ -8,13 +8,13 @@ import Login from "./pages/Login";
 import "./index.css";
 import { useEffect, useState } from "react";
 import CityList from "./components/cityList";
-import CountryList from './components/CountryList'
-
+import CountryList from "./components/CountryList";
+import City from "./components/City";
+import Form from "./components/Form";
 
 function App() {
-
   const [cities, setCities] = useState([]);
-  const [isLoading,setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -47,13 +47,25 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/product" element={<Product />} />
         <Route path="/pricing" element={<Pricing />} />
-         <Route path="/app" element={<AppLayout />} >
-            <Route index element={<CityList cities={cities} isLoading={isLoading}/>} />
-            <Route path='cities' element={<CityList cities={cities} isLoading={isLoading}/>} />
-            <Route path='form' element={<h1>Form</h1>} />
-            <Route path='countries' element={<CountryList cities={cities} isLoading={isLoading}/>} />
-         </Route>
-         <Route path='/login' element={<Login />} />
+        <Route path="/app" element={<AppLayout />}>
+          <Route index element={<Navigate to="cities" replace />} />
+
+          <Route
+            path="cities"
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
+
+          <Route path="cities/:id" element={<City />} />
+
+          <Route path="form" element={<Form/>} />
+
+          <Route
+            path="countries"
+            element={<CountryList cities={cities} isLoading={isLoading} />}
+          />
+        </Route>
+
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<PageNotFounds />} />
       </Routes>
     </BrowserRouter>
